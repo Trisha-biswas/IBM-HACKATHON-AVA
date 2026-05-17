@@ -22,6 +22,10 @@ if (!fs.existsSync(DOWNLOADS_DIR)) {
   fs.mkdirSync(DOWNLOADS_DIR, { recursive: true });
 }
 
+// In-memory storage for Vercel (since /tmp is ephemeral)
+// This will be lost on function cold starts, but better than nothing
+const requestsCache = new Map();
+
 /**
  * POST /api/visa/generate-cover-letter
  * Generate a cover letter PDF for visa application
@@ -374,6 +378,11 @@ router.post('/generate-complete-package', async (req, res) => {
 
     const metadataPath = path.join(requestFolder, 'metadata.json');
     fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2));
+
+    // Store in cache for Vercel (since /tmp is ephemeral)
+    if (process.env.VERCEL) {
+      requestsCache.set(requestId, metadata);
+    }
 
     console.log(`\n✅ Request completed: ${requestId}`);
     console.log(`   Successful: ${summary.successful}/${summary.total}`);
@@ -741,6 +750,48 @@ router.get('/dashboard', (req, res) => {
   try {
     console.log('\n📊 Fetching dashboard data...');
 
+    // For Vercel: use in-memory cache
+    if (process.env.VERCEL) {
+      const requests = [];
+      let totalTravelers = 0;
+      let successfulGenerations = 0;
+      let failedGenerations = 0;
+
+      // Convert cache to array
+      for (const [requestId, metadata] of requestsCache.entries()) {
+        totalTravelers += metadata.travelers.length;
+        successfulGenerations += metadata.summary.successful;
+        failedGenerations += metadata.summary.failed;
+
+        requests.push({
+          requestId: metadata.requestId,
+          createdAt: metadata.createdAt,
+          summary: metadata.summary,
+          travelers: metadata.travelers,
+          pdfFiles: [], // PDFs are returned as base64, not stored
+          metadataUrl: null
+        });
+      }
+
+      // Sort by creation date (newest first)
+      requests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      return res.json({
+        success: true,
+        message: `Found ${requests.length} visa requests (in-memory cache)`,
+        requests,
+        summary: {
+          totalRequests: requests.length,
+          totalTravelers,
+          successfulGenerations,
+          failedGenerations
+        },
+        fetchedAt: new Date().toISOString(),
+        note: 'Data stored in memory - will be cleared on function restart'
+      });
+    }
+
+    // For local development: read from filesystem
     // Check if downloads directory exists
     if (!fs.existsSync(DOWNLOADS_DIR)) {
       return res.json({
