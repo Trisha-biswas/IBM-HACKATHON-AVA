@@ -10,7 +10,17 @@ const watsonxService = require('../services/watsonxService');
 const fileService = require('../services/fileService');
 
 // Directory for storing generated files
-const DOWNLOADS_DIR = path.join(__dirname, '../public/downloads');
+// Use /tmp for Vercel serverless functions (writable), fallback to local for development
+const DOWNLOADS_DIR = process.env.VERCEL
+  ? '/tmp/downloads'
+  : path.join(__dirname, '../public/downloads');
+
+const fs = require('fs');
+
+// Ensure downloads directory exists
+if (!fs.existsSync(DOWNLOADS_DIR)) {
+  fs.mkdirSync(DOWNLOADS_DIR, { recursive: true });
+}
 
 /**
  * POST /api/visa/generate-cover-letter
@@ -258,15 +268,15 @@ router.post('/generate-complete-package', async (req, res) => {
     // Convert map to array
     flightOptions.push(...flightMap.values());
 
-    // Generate PDFs using createIndividualPDF for each successful result
+    // Generate PDFs - for Vercel, return base64 data instead of file URLs
     const processedResults = await Promise.all(
       results.map(async (result, index) => {
         if (result.status === 'success') {
           try {
             const traveler = requestData.travelers[index];
             
-            // Generate cover letter PDF
-            const coverLetterUrl = await fileService.createIndividualPDF(
+            // Generate cover letter PDF to file
+            const coverLetterPath = await fileService.createIndividualPDF(
               requestId,
               result.travelerName,
               'cover-letter',
@@ -274,8 +284,8 @@ router.post('/generate-complete-package', async (req, res) => {
               DOWNLOADS_DIR
             );
 
-            // Generate itinerary PDF
-            const itineraryUrl = await fileService.createIndividualPDF(
+            // Generate itinerary PDF to file
+            const itineraryPath = await fileService.createIndividualPDF(
               requestId,
               result.travelerName,
               'itinerary',
@@ -283,13 +293,35 @@ router.post('/generate-complete-package', async (req, res) => {
               DOWNLOADS_DIR
             );
 
+            // For Vercel: Read files and convert to base64
+            let coverLetterData, itineraryData;
+            if (process.env.VERCEL) {
+              // Read the actual file paths (not URLs)
+              const coverLetterFullPath = path.join(DOWNLOADS_DIR, requestId, path.basename(coverLetterPath));
+              const itineraryFullPath = path.join(DOWNLOADS_DIR, requestId, path.basename(itineraryPath));
+              
+              coverLetterData = fs.readFileSync(coverLetterFullPath).toString('base64');
+              itineraryData = fs.readFileSync(itineraryFullPath).toString('base64');
+            }
+
             return {
               name: result.travelerName,
               destination: requestData.toCountry,
               status: 'success',
-              files: {
-                coverLetter: coverLetterUrl,
-                itinerary: itineraryUrl
+              files: process.env.VERCEL ? {
+                coverLetter: {
+                  data: coverLetterData,
+                  filename: `cover-letter-${result.travelerName.replace(/\s+/g, '-')}.pdf`,
+                  type: 'base64'
+                },
+                itinerary: {
+                  data: itineraryData,
+                  filename: `itinerary-${result.travelerName.replace(/\s+/g, '-')}.pdf`,
+                  type: 'base64'
+                }
+              } : {
+                coverLetter: coverLetterPath,
+                itinerary: itineraryPath
               },
               travelerData: {
                 name: traveler.name,

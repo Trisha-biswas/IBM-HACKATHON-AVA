@@ -4,14 +4,35 @@ import ReactMarkdown from 'react-markdown';
 import './Steps.css';
 
 const ReviewAndSave = ({ generatedData, onFinish }) => {
-  const handleDownload = async (fileUrl) => {
+  const handleDownload = async (file) => {
     try {
-      const response = await fetch(`http://localhost:3001${fileUrl}`);
-      const blob = await response.blob();
+      let blob;
+      let filename;
+
+      // Check if file is base64 data (Vercel) or URL (local)
+      if (typeof file === 'object' && file.type === 'base64') {
+        // Convert base64 to blob
+        const byteCharacters = atob(file.data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        blob = new Blob([byteArray], { type: 'application/pdf' });
+        filename = file.filename;
+      } else {
+        // Fetch from URL (local development)
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+        const response = await fetch(`${apiBaseUrl}${file}`);
+        blob = await response.blob();
+        filename = file.split('/').pop();
+      }
+
+      // Create download link
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = fileUrl.split('/').pop();
+      link.download = filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -178,7 +199,10 @@ const ReviewAndSave = ({ generatedData, onFinish }) => {
 
         <div className="documents-grid">
           {generatedData.files && generatedData.files.map((file, index) => {
-            const fileName = file.split('/').pop();
+            // Handle both URL strings and base64 objects
+            const fileName = typeof file === 'string'
+              ? file.split('/').pop()
+              : file.filename;
             const cleanFileName = fileName.replace(/^(cover-letter-|itinerary-)/, '').replace(/\.pdf$/, '');
             
             return (
