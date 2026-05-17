@@ -1,0 +1,13 @@
+node_modules
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+*.log
+test-*.js
+*.md
+public/downloads/*
+!public/downloads/.gitkeep
