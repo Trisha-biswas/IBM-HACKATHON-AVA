@@ -3,7 +3,9 @@ import { Loading, InlineNotification } from '@carbon/react';
 import axios from 'axios';
 import './Steps.css';
 
-const API_BASE_URL = 'http://localhost:3001/api/visa';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+  ? `${import.meta.env.VITE_API_BASE_URL}/api/visa`
+  : 'http://localhost:3001/api/visa';
 
 const AIGenerationStep = ({ formData, onComplete, onError }) => {
   const [error, setError] = useState(null);

@@ -27,7 +27,13 @@ git push origin main
    FRONTEND_URL=https://your-frontend.vercel.app
    ```
 5. Click Deploy
-6. **Copy the backend URL** (e.g., `https://visa-backend-xyz.vercel.app`)
+6. **Copy the backend URL** (e.g., `https://visa-backend-xyz.vercel.app`). 
+
+
+
+ibm-hackathon-ava.vercel.app
+
+ibm-hackathon-ava-1ndn.vercel.app
 
 ### 3. Deploy Frontend (2 minutes)
 

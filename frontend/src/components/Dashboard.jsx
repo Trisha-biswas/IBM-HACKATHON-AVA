@@ -23,7 +23,9 @@ import { Add, Download, Document } from '@carbon/icons-react';
 import axios from 'axios';
 import './Dashboard.css';
 
-const API_BASE_URL = 'http://localhost:3001/api/visa';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+  ? `${import.meta.env.VITE_API_BASE_URL}/api/visa`
+  : 'http://localhost:3001/api/visa';
 
 const Dashboard = () => {
   const navigate = useNavigate();
