@@ -1,0 +1,16 @@
+.itinerary-wizard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wizard-content {
+  margin-top: 3rem;
+}
+
+/* Progress Indicator Styling */
+.cds--progress {
+  margin-bottom: 3rem;
+}
+
+/* Made with Bob */

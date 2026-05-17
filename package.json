@@ -1,0 +1,12 @@
+{
+  "name": "bobhackathon",
+  "version": "1.0.0",
+  "description": "An intelligent visa documentation assistant powered by IBM watsonx.ai that helps travelers generate professional cover letters and detailed travel itineraries for visa applications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

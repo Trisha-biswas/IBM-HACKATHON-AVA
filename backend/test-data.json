@@ -1,0 +1,21 @@
+{
+  "personalInfo": {
+    "fullName": "Jane Smith",
+    "nationality": "Canada",
+    "passportNumber": "CA987654321",
+    "dateOfBirth": "1985-03-20"
+  },
+  "travelInfo": {
+    "destination": "Japan",
+    "purpose": "Tourism",
+    "duration": 10,
+    "departureDate": "2026-08-15",
+    "returnDate": "2026-08-25"
+  },
+  "additionalInfo": {
+    "occupation": "Marketing Manager",
+    "employer": "Global Marketing Inc",
+    "accommodations": "Hotel reservations confirmed for entire stay at Tokyo Hilton",
+    "previousVisits": true
+  }
+}

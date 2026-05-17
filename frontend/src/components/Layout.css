@@ -1,0 +1,26 @@
+/* Layout Container */
+.layout-container {
+  min-height: 100vh;
+  background-color: #f4f4f4;
+}
+
+/* Layout Content */
+.layout-content {
+  padding: 2rem;
+  max-width: 1584px;
+  margin: 0 auto;
+}
+
+/* Breadcrumb Spacing */
+.layout-content .cds--breadcrumb {
+  margin-bottom: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .layout-content {
+    padding: 1rem;
+  }
+}
+
+/* Made with Bob */

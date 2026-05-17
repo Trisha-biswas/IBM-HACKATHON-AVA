@@ -1,0 +1,33 @@
+{
+  "fromCountry": "IN",
+  "toCountry": "AT",
+  "startDate": "01/05/2026",
+  "endDate": "07/05/2026",
+  "budget": "20,000",
+  "numTravelers": 2,
+  "travelers": [
+    {
+      "name": "Suvu",
+      "sponsorType": "employer",
+      "sponsorOrg": "Google"
+    },
+    {
+      "name": "Trisha",
+      "sponsorType": "employer",
+      "sponsorOrg": "IBM"
+    }
+  ],
+  "transport": "flight",
+  "purpose": "tourism",
+  "interests": [
+    {
+      "id": 1,
+      "label": "Art"
+    },
+    {
+      "id": 2,
+      "label": "History"
+    }
+  ],
+  "specialRequests": "Would like to visit museums and historical sites. Prefer vegetarian food options."
+}

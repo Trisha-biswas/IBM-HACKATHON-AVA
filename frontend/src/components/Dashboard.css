@@ -1,0 +1,200 @@
+/* Dashboard Container */
+.dashboard-container {
+  padding: 2rem;
+  max-width: 1584px;
+  margin: 0 auto;
+}
+
+/* Page Header */
+.page-header {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 0 0 0.5rem 0;
+  color: #161616;
+}
+
+.page-description {
+  font-size: 0.875rem;
+  color: #525252;
+  margin: 0;
+}
+
+/* Table Container */
+.table-container {
+  background-color: #ffffff;
+  margin-top: 1rem;
+}
+
+/* Loading State */
+.dashboard-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Error Message */
+.error-message {
+  background-color: #fff1f1;
+  border-left: 3px solid #da1e28;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.error-message p {
+  color: #da1e28;
+  margin: 0;
+}
+
+/* Modal Content */
+.modal-content {
+  padding: 0;
+}
+
+.modal-info-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.modal-info-label {
+  font-weight: 600;
+  color: #161616;
+}
+
+.modal-info-value {
+  color: #525252;
+}
+
+.modal-section-title {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin: 2rem 0 1rem 0;
+  color: #161616;
+}
+
+.travelers-list {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin: 0 0 2rem 0;
+}
+
+.travelers-list li {
+  font-size: 0.875rem;
+  color: #161616;
+  margin: 0.5rem 0;
+}
+
+.documents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.document-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background-color: #f4f4f4;
+  border-radius: 0;
+  transition: background-color 0.15s ease;
+}
+
+.document-item:hover {
+  background-color: #e8e8e8;
+}
+
+.document-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.document-icon {
+  color: #161616;
+  flex-shrink: 0;
+}
+
+.document-name {
+  font-size: 0.875rem;
+  color: #161616;
+  font-weight: 400;
+}
+
+/* Modal Overrides */
+.details-modal .cds--modal-content {
+  padding: 1rem 1rem 1rem 1rem;
+}
+
+.details-modal .cds--modal-footer {
+  padding: 1rem;
+}
+
+.details-modal .cds--modal-footer .cds--btn--primary {
+  width: 100%;
+  max-width: 100%;
+  margin-top: -1rem;
+  margin-right: -1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 1rem;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .tiles-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Carbon Design System Overrides */
+.cds--data-table-container {
+  padding-top: 0;
+  background-color: #ffffff !important;
+}
+
+.cds--data-table {
+  background-color: #ffffff !important;
+}
+
+.cds--data-table thead {
+  background-color: #e0e0e0 !important;
+}
+
+.cds--data-table tbody {
+  background-color: #ffffff !important;
+}
+
+.cds--data-table tr {
+  background-color: #ffffff !important;
+}
+
+.cds--table-toolbar {
+  background-color: #ffffff !important;
+}
+
+.cds--overflow-menu {
+  background-color: transparent;
+}
+
+.cds--tag {
+  min-width: 80px;
+  justify-content: center;
+}
+
+/* Made with Bob */
